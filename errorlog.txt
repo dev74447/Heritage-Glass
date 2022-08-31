@@ -1,0 +1,68 @@
+
+
+//
+Error: secret option required for sessions
+resolution:
+app.use(session("sessionConfig")); XXXERROR causing line
+is changed to
+app.use(session(sessionConfig)); 
+cuase sessionConfig is not a string, it is a object so pass accordigly
+
+// 
+reoccuring error causing by
+app.all('*')
+ proper resolve not found yet
+last time it was automatically resolved 
+
+//
+CastError: Cast to ObjectId failed for value "qwer" (type string) at path "_id" for model "Campground"
+since i was proving random string fro url, hence 
+the the new Campground was creating but the error waas due to rending the img
+RESOLVE: provided right urls for img so no cast 
+
+//flash is not working???
+cant find what was the error but after doing step by step it automatically resloved
+and also its req.flash(.....) 
+NOT res.flash(..)
+
+////////////////////////// authentication section///////////////////////
+
+// res.locals.currentUser is not defined
+currentUser depend on req.user i.e on passport
+hence passpost serialize and  deserialize must be declared before res.locals
+resolve: initialze in order passport ---->>> flash(res.locals) 
+
+//
+Error: req#logout requires a callback function
+resolve: convert it to callback function i.e. write (err)=>{....} inside it
+
+//
+Error: Route.get() requires a callback function but got a [object Object]
+const isLoggedIn= require('../middlewares'); ERROR
+dont have any single idea why??
+resolved: const {isLoggedIn }= require('../middlewares');
+
+//res.session.returnTo --> undefined
+redirect Url--> /campgrounds
+this error is beacause of updated version of passport0.6 , which has major changes.
+to resolve issue
+1. revert to roolback  OR
+2. use keepSessionInfo:true, but this method is less secure 
+3. Ian have posted some resolves check them
+
+
+///authorization////////
+
+//
+ReferenceError: currentUser is not defined
+bug while creating the new campground route on line campground.author = currentUser._id
+
+If we want to access user in ejs file use currentUser, or else use req.user
+we cannot use currentUser instead of req.user.
+resolve: campground.author = req.user
+
+
+BUG??? not remembring the last route on 
+/////////////////////////////////////
+//
+Error: Route.post() requires a callback function but got a [object Undefined]

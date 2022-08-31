@@ -1,0 +1,47 @@
+<% layout('layouts/boilerplate') %>
+
+<section class="py-5 text-center container">
+  <div class="row py-lg-5">
+    <div class="col-lg-6 col-md-8 mx-auto">
+      <h1 class="fw-light"> World Heritage Sites</h1>
+      <p class="lead text-muted">It is not just a list of marvelous sites – it is a vision for peace with the power to change the minds of women and men and to shape a sustainable future for all. It is about mobilizing heritage as a force for creativity, innovation and sustainable development</p>
+      <p>
+        <a href="/sites/new" class="btn btn-primary my-2">Add Missing</a>
+        <a href="/globe" class="btn btn-secondary my-2">Around globe</a>
+      </p>
+    </div>
+  </div>
+</section>
+<div class="album py-5 bg-light">
+  <div class="container">
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+      <% for(let campground of campgrounds){ %>
+        <div class="col">
+          <div class="card shadow-sm">
+            <img src="<%= campground.img %> " class="img-fluid rounded-start" alt="" />
+            <div class="card-body">
+              <h5 class="card-title">
+                <%= campground.title %>
+              </h5>
+              <p class="card-title">
+                <%= campground.location %>
+              </p>
+
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                  <a class="btn btn-sm btn-outline-secondary" href="/sites/<%= campground.id %>">
+                    view </a>
+                  <a class="btn btn-sm btn-outline-secondary" href="/sites/<%= campground.id %>/edit">
+                    edit </a>
+                </div>
+                <small class="text-muted">9 mins</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <% } %>
+
+    </div>
+  </div>
+</div>

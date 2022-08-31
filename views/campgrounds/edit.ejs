@@ -1,0 +1,98 @@
+<% layout('layouts/boilerplate') %>
+  <section class="row">
+    <h1 class="text-center">Edit Site</h1>
+
+    <!-- fro centering -->
+    <div class="col-6 offset-3">
+      <form action="/campgrounds/<%= campground.id %>?_method=PUT" method="POST" class="validate-form" novalidate>
+        <div class="my-3">
+          <label class="form-label" for="title"> Campground title</label>
+          <input class="form-control" type="text" id="title" name="campground[title]" value="<%= campground.title%>"
+            required />
+          <div class="invalid-feedback">Please provide a valid title.</div>
+        </div>
+        <div class="my-3">
+          <label class="form-label" for="location"> Campground location</label>
+          <input class="form-control" type="text" id="location" name="campground[location]"
+            value="<%=campground.location%>" required />
+          <div class="invalid-feedback">Please provide a valid location.</div>
+        </div>
+
+
+        <!-- addeding new -->
+        <div class="my-3">
+          <label class="form-label" for="Country"> Campground Country</label>
+          <input class="form-control" type="text" id="Country" name="campground[Country]" value="<%= campground.Country%>" required />
+          <div class="invalid-feedback">
+            Please provide a valid Country.
+          </div>
+        </div>
+        <div class="my-3">
+          <label class="form-label" for="Region"> Campground Region</label>
+          <input class="form-control" type="text" id="Region" name="campground[Region]" value="<%= campground.region %>" required />
+          <div class="invalid-feedback">
+            Please provide a valid Region.
+          </div>
+        </div>
+        <div class="my-3">
+          <label class="form-label" for="date_inscribed"> Which year the site Inscribed</label>
+          <input class="form-control" type="text" id="date_inscribed" name="campground[date_inscribed]" value="<%= campground.date_inscribed%>" required />
+          <div class="invalid-feedback">
+            Please provide a valid Year.
+          </div>
+        </div>
+        <div class="my-3">
+          <label class="form-label" for="category"> Category</label>
+          <input class="form-control" type="text" id="category" name="campground[category]" value="<%= campground.category%>" required />
+          <div class="invalid-feedback">
+            Please provide a valid Category.
+          </div>
+        </div>
+        <div class="my-3">
+          <label class="form-label" for="category_code"> Category_code</label>
+          <input class="form-control" type="text" id="category_code" name="campground[category_code]" value="<%= campground.category_code%>" required />
+          <div class="invalid-feedback">
+            Please provide a valid category_code.
+          </div>
+        </div>
+        <div class="my-3">
+          <label class="form-label" for="iso_code"> Iso_code</label>
+          <input class="form-control" type="text" id="iso_code" name="campground[iso_code]" value="<%= campground.iso_code%>"  required />
+          <div class="invalid-feedback">
+            Please provide a valid Iso_code.
+          </div>
+        </div>
+        <div class="my-3">
+          <label class="form-label" for="area"> Area(Hectares)</label>
+          <input class="form-control" type="text" id="area" name="campground[area]"value="<%= campground.area%>"  required />
+          <div class="invalid-feedback">
+            Please provide a valid Area.
+          </div>
+        </div>
+        <div class="my-3">
+          <label class="form-label" for="danger"> Danger index</label>
+          <input class="form-control" type="text" id="danger" name="campground[danger]" value="<%= campground.danger%>" required />
+          <div class="invalid-feedback">
+            Please provide a valid Danger index.
+          </div>
+        </div>
+
+        <!-- ending new -->
+
+        <div class="my-3">
+          <label class="form-label" for="img"> Campground img url</label>
+          <input class="form-control" type="text" id="img" name="campground[img]" value="<%= campground.img %>" />
+        </div>
+
+        <div class="my-3">
+          <label class="form-label" for="description"> Description </label>
+          <textarea class="form-control" type="text" id="location" name="campground[description]" required><%= campground.description %></textarea>
+          <div class="invalid-feedback">Description cant be empty.</div>
+        </div>
+        <div class="my-3 d-flex justify-content-between">
+          <a class="btn btn-secondary" href="/campgrounds">back</a>
+          <button class="btn btn-success">Edit</button>
+        </div>
+      </form>
+    </div>
+  </section>

@@ -1,0 +1,148 @@
+<% layout('layouts/boilerplate') %>
+
+  <link rel="stylesheet" href="/stylesheet/star.css">
+
+  
+
+  <div class="row">
+    <div class="col-md-7">
+      <div class="card" style="width: 90%">
+        <img class="card-img-top" src="<%= campground.img %> " alt="" />
+        <div class="card-body">
+          <h5 class="card-title">
+            <%=campground.title %>
+          </h5>
+          <p class="card-text">
+            <%= campground.description %>
+          </p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <%=campground.location %>
+          </li>
+          <li class="list-group-item d-flex justify-content-between">
+            Date Inscribed <span>::</span> <span><%=campground.date_inscribed %></span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between">
+            Danger <span>::</span> <span><%=campground.danger %></span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between">
+            Area <span>::</span> <span><%=campground.area %> hectares</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between">
+            Category <span>::</span> <span><%=campground.category %></span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between">
+            Category Code <span>::</span> <span><%=campground.category_code %></span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between">
+            Country <span>::</span> <span><%=campground.Country%></span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between" >
+            Region <span>::</span> <span><%=campground.region %></span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between">
+            Iso Code <span>::</span> <span><%=campground.iso_code %></span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between ">
+            Maintenance Officer <span>::</span> <span><%=campground.author.username %></span>
+          </li>
+        </ul>
+        <% if (currentUser && campground.author.equals(currentUser._id)) { %>
+
+          <div class="card-body d-flex justify-content-between">
+            <form action="/sites/<%=campground._id%>?_method=DELETE" method="POST">
+              <button class="btn btn-danger">delete</button>
+            </form>
+            <a class="btn btn-success" href="/sites/<%=campground._id%>/edit">
+              edit</a>
+          </div>
+          <% } %>
+      </div>
+    </div>
+
+    <div class="col-md-5 py-5">
+      <div id="map"  style="width:100%; height: 300px;"></div>
+
+      <form class="py-5" action="/sites/<%= campground._id %>/reviews" method="POST">
+        <h2>Reviews and Suggestions</h2>
+        <div>
+
+          <fieldset class="starability-basic">
+            <legend>Drop review</legend>
+            <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked
+              aria-label="No rating." />
+            <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+            <label for="first-rate1" title="Terrible">1 star</label>
+            <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+            <label for="first-rate2" title="Not good">2 stars</label>
+            <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+            <label for="first-rate3" title="Average">3 stars</label>
+            <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+            <label for="first-rate4" title="Very good">4 stars</label>
+            <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+            <label for="first-rate5" title="Amazing">5 stars</label>
+          </fieldset>
+
+
+        </div>
+        <div class="my-3">
+          <label for="body" class="form-label"></label>
+          <textarea name="review[body]" id="body" class="form-control" cols="30" rows="3"></textarea>
+        </div>
+        <button class="btn btn-small btn-success">submit</button>
+      </form>
+
+      <% campground.reviews.forEach(review=> { %>
+        <div class="card my-3">
+          <div class="card-body">
+            <h5 class="card-title">
+              <%= review.author.username %>
+            </h5>
+            <p class="starability-result" data-rating="<%= review.rating %>">
+            </p>
+            <p class="card-text">Review: <%= review.body %>
+            </p>
+            <form action="/sites/<%=campground._id%>/reviews/<%=review._id%>?_method=DELETE" method="POST">
+              <button class="btn btn-sm btn-danger">Delete</button>
+            </form>
+          </div>
+        </div>
+        <% }) %>
+    </div>
+
+  </div>
+  </div>
+
+  <div class="my-5">
+    <a class="btn btn-secondary" href="/sites"> back</a>
+  </div>
+
+
+
+  <script>
+    // TO MAKE THE MAP APPEAR YOU MUST
+    // ADD YOUR ACCESS TOKEN FROM
+    // https://account.mapbox.com
+    mapboxgl.accessToken = '<%-process.env.MAPBOX_TOKEN%>';
+    // auto formating of jason.stringofy was causing the error
+    const campground = <%-JSON.stringify(campground)%>;
+    const map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/streets-v11',
+      center: campground.geometry.coordinates,
+      zoom: 8
+    });
+    map.addControl(new mapboxgl.NavigationControl());
+    // Create a default Marker and add it to the map.
+    const marker1 = new mapboxgl.Marker()
+      .setLngLat(campground.geometry.coordinates)
+      .setPopup(
+        new mapboxgl.Popup({ offset: 25 })
+          .setHTML(
+            `<h4>${campground.title}</h4><p>${campground.location}</p>`
+          )
+      )
+      .addTo(map);
+
+  </script>
